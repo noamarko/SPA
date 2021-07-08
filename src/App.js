@@ -34,7 +34,6 @@ export class App extends Component {
           <AppBar position='fixed'  color='default'>
           <ToolBar>
           </ToolBar>
-          <img alt='' style={{ height: '65px', alignSelf: 'flex-start', position: 'fixed', width: '150px', left:'-1%' }} src='BigID_logo.png' />
         </AppBar>
         <br/>
         <Router>
