@@ -13,7 +13,9 @@ import {
   Link
 } from "react-router-dom";
 
-/*App handles the changes between the two pages.*/
+/*App handles the changes between the two pages.
+  Uses ProSidebar and it's components to present the links
+  and with Router components switches between the two pages.*/
 
 export class App extends Component {
 
