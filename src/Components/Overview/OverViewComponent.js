@@ -173,5 +173,5 @@ export class OverView extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyChBEJgCpQbXHLmlWK_8A5Vj8TS5wUDXm8'
+  apiKey: 'YOUR_API_KEY' //Check https://developers.google.com/maps/documentation/javascript/get-api-key
 })(OverView);
