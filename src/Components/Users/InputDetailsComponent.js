@@ -43,17 +43,7 @@ function InputDetails(props) {
                 }
                 else
                     setMsg('Error: Users must be larger than 0!') 
-            } else {
-                api.delete('/' + countryName.label).then(res => {
-                    if (res.status === 200) {
-                        setMsg('Deleted Successfuly!');
-                        setAmountOfUsers(null);
-                        setCountryName('');
-                    }
-                    else
-                        setMsg('Error in deleting ' + countryName.label);
-                })
-            }
+            } 
         } else
             setMsg('Error: Must select a country!');
     };
@@ -76,7 +66,7 @@ function InputDetails(props) {
 
 
     return (
-        <div>
+        <div style={{postion:'absolute'}}>
             <h2 style={{ color: 'black' }}>Input Details</h2>
             <div style={{ position: 'sticky', width:'230px' }}>
                 <form id="example-form">
@@ -92,15 +82,13 @@ function InputDetails(props) {
                     <br />
                     <button value="Submit" onClick={sendDetailsFromServer} style={{ position: 'relative', color: 'black', backgroundColor: 'turquoise' }}>
                         Submit</button>
-                    <button value='Delete' onClick={sendDetailsFromServer} style={{ position: 'relative', left: '5%' }}>Delete</button>
                 </form>
                 {msg.includes('Error') ? <div style={{ textAlign: 'left', color: 'red' }}>{msg}</div>
                     :
                     <div style={{ textAlign: 'left', color: 'blue' }}>{msg}</div>}
                 <h6 style={{ fontSize: '12px', color: 'black' }}>
                     * If country exists - new value will<br/>be added to the old value.
-                    <br/>
-                    * Can erase picked country.
+
                 </h6>
             </div>
         </div>

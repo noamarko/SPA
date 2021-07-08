@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import ToolBar from '@material-ui/core/Toolbar';
-import InputDetails from './Components/Users/InputDetailsComponent';
-import OverView from './Components/OverView/OverViewComponent';
 import AppBar from '@material-ui/core/Appbar';
-import { ProSidebar, Menu, MenuItem} from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
-
+import AppRouter from './Components/AppRouter';
+import AppSideBar from './Components/AppSideBar';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
   Link
 } from "react-router-dom";
 
@@ -19,47 +15,31 @@ import {
 
 export class App extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      delCountry: ''
+    }
+  }
   render() {
-   
+
     return (
-      <div>
-          <AppBar position='fixed'  color='default'>
-          <ToolBar>
-          </ToolBar>
-        </AppBar>
-        <br/>
-        <Router>
-          <div style={{position:'sticky', height:'fit-content'}}>
-          <ProSidebar width='fit-content' style={{ position: 'fixed'}}>
-            <Menu iconShape='round'>
-              <br/>
-              <MenuItem>
-                <Link to='/OverView' activestyle={{
-                  color: 'white'
-                }} />Overview</MenuItem>
-              <MenuItem>
-                <Link to='/InputDetails' activestyle={{
-                  color: 'white',
-                }} />Input Details</MenuItem>
-            </Menu>
-          </ProSidebar>
+      <Router>
+        <div>
+          <AppBar position='fixed' color='default'>
+            <ToolBar>
+            </ToolBar>
+            <img alt='' style={{ height: '65px', alignSelf: 'flex-start', position: 'fixed', width: '150px', left: '-1%' }} src='BigID_logo.png' />
+          </AppBar>
+          <br />
+          <div style={{ position: 'sticky', height: 'fit-content' }}>
+            <AppSideBar />
           </div>
-          <br/>
-          <Switch>
-            <Route path="/" exact={true}>
-              <OverView />
-            </Route>
-            <Route path="/OverView" exact={true}>
-              <OverView/>
-            </Route>
-            <Route path="/InputDetails">
-              <div style={{position: 'sticky', left: '15%', width:'300px' }}>
-                <InputDetails/>
-              </div>
-            </Route>
-          </Switch>
-        </Router>
-      </div>
+          <br />
+          <AppRouter />
+        </div>
+      </Router>
     );
   }
 }
