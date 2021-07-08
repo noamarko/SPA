@@ -17,18 +17,8 @@ import {
 
 export class App extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      delCountry:''
-    }
-  }
   render() {
-    var {delCountry} = this.state;
-    const upDateCountry = (name) =>{
-      delCountry = name;
-    }
+   
     return (
       <div>
           <AppBar position='fixed'  color='default'>
@@ -58,11 +48,11 @@ export class App extends Component {
               <OverView />
             </Route>
             <Route path="/OverView" exact={true}>
-              <OverView isUpdated={delCountry}/>
+              <OverView/>
             </Route>
             <Route path="/InputDetails">
               <div style={{position: 'sticky', left: '15%', width:'300px' }}>
-                <InputDetails update={upDateCountry}/>
+                <InputDetails/>
               </div>
             </Route>
           </Switch>
