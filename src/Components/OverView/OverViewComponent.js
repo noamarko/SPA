@@ -4,8 +4,8 @@ import { Component } from 'react';
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 import { countryData } from "../../countriesData";
 
-/*OverView component handles display of the map and number of users.
-  Executes GET method using api(axios), extracting relevent data(countries that are in the database) from JSON file(countries details).
+/*Overview component handles the display of the map and number of users.
+  Executes GET method, extracting relevent data(countries that are in the database) from JSON file(countries details).
   Using Google maps - disaplying the map and with Markers and InfoWindow compenents displaying
   the countries that have been extracted.*/
 
