@@ -8,7 +8,7 @@ import { withRouter } from "react-router-dom";
 /*Controls the Input Details page
   executes POST method to update the server
   or
-  executes DELETE method to erase country from server
+  executes DELETE method to erase country from server - currently, after delete action, page needs to be refreshed so map would update
   */
 
 function InputDetails(props) {
@@ -46,7 +46,6 @@ function InputDetails(props) {
             } else {
                 api.delete('/' + countryName.label).then(res => {
                     if (res.status === 200) {
-                        props.update(countryName.label);
                         setMsg('Deleted Successfuly!');
                         setAmountOfUsers(null);
                         setCountryName('');
