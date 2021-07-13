@@ -62,7 +62,6 @@ function OverView(props) {
   };
 
   const setOutOfBoundsListener = () => {
-    //Listening to map coordinates - handling out of bounds gray area in map
     props.google.maps.event.addListener(mapModel, "dragend", () => {
       checkLatitude(mapModel);
     });
@@ -77,7 +76,7 @@ function OverView(props) {
   const mapStyles = {
     position: "relative",
     width: "95%",
-    height: "85%",
+    height: "83%",
     fullscreenControl: false,
   };
 
@@ -89,7 +88,7 @@ function OverView(props) {
   const paperStyle = {
     position: "fixed",
     width: "80%",
-    height: "650px",
+    height: "90%",
     borderRadius: "20px",
     padding: "10px",
   };

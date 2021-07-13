@@ -30,7 +30,6 @@ function InputDetails(props) {
   };
 
   const sendCountryDetailsToServer = async (event) => {
-    //sending added country to server || deleting country
     event.preventDefault();
     const { isValid, message } = validateCountrySubmit(
       countryName,
@@ -54,6 +53,7 @@ function InputDetails(props) {
           console.log(error);
         });
     }
+    setAmountOfUsers(0);
     setCountryName("");
     setMsg(message);
   };
