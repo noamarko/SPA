@@ -1,18 +1,9 @@
-import React from 'react';
-import api from '../../api';
-import { Component } from 'react';
+import React, {useState, useEffect} from 'react';
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
-import { countryData } from "../../countriesData";
+import Paper from '@material-ui/core/Paper';
 
-/*Overview component handles the display of the map and number of users.
-  Executes GET method, extracting relevent data(countries that are in the database) from JSON file(countries details).
-  Using Google maps - disaplying the map and with Markers and InfoWindow compenents displaying
-  the countries that have been extracted.*/
 
-const countryDict = [];
-
-const checkLatitude = (map) => {
-
+const checkLatitude = (map) => { //handeling map gray area
   const sLat = map.getBounds().getSouthWest().lat();
   const nLat = map.getBounds().getNorthEast().lat();
   if (sLat < -85 || nLat > 85) {
@@ -26,152 +17,110 @@ const checkLatitude = (map) => {
   }
 }
 
+/*Overview component handles the display of the map and number of users.
+  Executes GET method, extracting relevent data(countries that are in the database) from JSON file(countries details).
+  Using Google maps - disaplying the map and with Markers and InfoWindow compenents displaying
+  the countries that have been extracted.*/
 
-export class OverView extends Component {
+function OverView(props){
 
-  function
+  const [showingInfoWindow, setShowingInfoWindow] = useState(false);
+  const [activeMarker, setActiveMarker] = useState({});
+  const [selectedPlace, setSelectedPlace] = useState({});
+  const [mapModel, setMapModel] = useState(null);
 
-  constructor(props) {
-    super(props);
+  
 
-    this.state = {
-      sum: 0,
-      showingInfoWindow: false,
-      activeMarker: {},
-      selectedPlace: {},
-      countries: [],
-      center: { lat: 45, lng: -10 },
-      isMapLoaded: false,
-      mapModel: null,
+  const componentDidUpdate = async () => {
+    if (mapModel) {
+      setMapModel(true);
+      setOutOfBoundsListener(mapModel);
     }
   }
+  useEffect(() => {
+      componentDidUpdate();
+  }, [mapModel, componentDidUpdate])
 
-  async extractInfo(data) {//creating data for the map (name,longitude and latitude)
 
-    for (let i = 0; i < data.length; i++) {
-      this.state.sum += data[i].users;//calculating the total users
-      this.setState({//adding the data of the countries to present on the map (name, total users)
-        countries: this.state.countries.concat([[data[i].country, data[i].users]])
-      });
-    }
-    countryData.map((data => { // extracting the relevant countries from the JSON file
-      this.state.countries.map((country) => {
-        if (data.name === country[0]) {
-          countryDict.push([data.latlng[0], data.latlng[1], country[0], country[1]])
-          //push [latitude, longitude , country name, number of users] for countries that are in the database
-        }
-        return 1;
+  const displayMarkers = () => {
+    return props.dataList.map((country, index) => {
+      if(country.users > 0)
+        return <Marker key={index} id={index} position={{
+          lat: country.lat,
+          lng: country.lng
+        }}
+          onClick={onMarkerClick}
+          name={country.country + ': ' + country.users} />
       })
-      return 1;
-    }))
   }
 
-  async componentDidMount() {
-
-    await api.get('/')
-      .then(res => {
-        const data = res.data;
-        this.extractInfo(data);
-        return res.data
-      }).catch((error) => {
-        console.log(error + ' inside componentDidMount');
-      });
-    this.setState({});
+  const onMarkerClick = (markerProps, marker) => {
+    setSelectedPlace(markerProps);
+    setActiveMarker(marker);
+    setShowingInfoWindow(true);
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!this.state.isMapLoaded && this.state.mapModel) {
-      this.setState({ isMapLoaded: true }, () => {
-        this.setOutOfBoundsListener(this.state.mapModel)
-      })
-    }
-  }
-
-
-  displayMarkers = () => {
-    return countryDict.map((country, index) => {
-      return <Marker key={index} id={index} position={{
-        lat: country[0],
-        lng: country[1]
-      }}
-        onClick={this.onMarkerClick}
-        name={country[2] + ': ' + country[3]} />
-    })
-  }
-
-  onMarkerClick = (props, marker) => {
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true
-    });
-  }
-
-  onClose = (props) => {
-    if (this.state.showingInfoWindow) {
-      this.setState({
-        showingInfoWindow: false,
-        activeMarker: null
-      });
+  const onClose = () => {
+    if (showingInfoWindow) {
+      setShowingInfoWindow(false);
+      setActiveMarker(null);
     }
   };
 
 
-  setOutOfBoundsListener = () => { //Listening to map coordinates - handling out of bounds gray area in map
-    this.props.google.maps.event.addListener(this.state.mapModel, 'dragend', () => {
-      checkLatitude(this.state.mapModel);
+  const setOutOfBoundsListener = () => { //Listening to map coordinates - handling out of bounds gray area in map
+    props.google.maps.event.addListener(mapModel, 'dragend', () => {
+      checkLatitude(mapModel);
     });
-    this.props.google.maps.event.addListener(this.state.mapModel, 'idle', () => {
-      checkLatitude(this.state.mapModel);
+    props.google.maps.event.addListener(mapModel, 'idle', () => {
+      checkLatitude(mapModel);
     });
-    this.props.google.maps.event.addListener(this.state.mapModel, 'zoom_changed', () => {
-      checkLatitude(this.state.mapModel);
+    props.google.maps.event.addListener(mapModel, 'zoom_changed', () => {
+      checkLatitude(mapModel);
     });
   };
 
-  render() {
     const mapStyles = {
       width: '70%',
-      height: '70%',
-      left: '15%'
+      height: '90%',
+      // left: '15%'
     };
-    const { sum, center } = this.state;
-    
+    console.log(props.dataList);
     return (
-      <div style={{ overflow: 'visible' }}>
-        <div style={{ position: 'sticky', width: '150px', left: '15%' }}>
-          <h2>OverView</h2>
-          <h3 style={{ position: 'sticky', color: 'teal' }}>
-            <strong>Total Users: {sum}</strong>
-          </h3>
-        </div>
+      <div style={{padding:'10px' }}>
+      <Paper elevation={4} style={{width:'76%', height:'650px', borderRadius:'20px', padding:'10px'}}>
+      
+        <h2>OverView</h2>
+        <strong style={{color:'steelblue'}}>Total Users: {props.usersData}</strong>
         <Map
           onReady={(mapProps, map) => {
-            this.setState({ mapModel: map })}}
-          google={this.props.google}
+            setMapModel(map);
+          }}
+          google={props.google}
           mapContainerStyle={{
             width: '300px',
             height: '100px'}}
           zoom={2}
           minZoom={2}
-          maxZoom={5}
+          maxZoom={7}
           style={mapStyles}
-          initialCenter={center}>
-          {this.displayMarkers()}
+          initialCenter={{ lat: 45, lng: -10 }}>
+          {displayMarkers()}
           <InfoWindow
-            marker={this.state.activeMarker}
-            visible={this.state.showingInfoWindow}
-            onClose={this.onClose}>
+            marker={activeMarker}
+            visible={showingInfoWindow}
+            onClose={onClose}>
             <div>
-              <h4>{this.state.selectedPlace.name}</h4>
+              <h4>{selectedPlace.name}</h4>
             </div>
           </InfoWindow>
         </Map>
+      
+      </Paper>
       </div>
     );
   }
-}
 
 export default GoogleApiWrapper({
-  apiKey: 'YOUR_API_KEY' //Check https://developers.google.com/maps/documentation/javascript/get-api-key
+  apiKey: 'AIzaSyChBEJgCpQbXHLmlWK_8A5Vj8TS5wUDXm8'
 })(OverView);

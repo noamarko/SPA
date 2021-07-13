@@ -1,4 +1,4 @@
-export const countryData = [
+export const COUNTRY_DATA = [
     {
         "timezones": [
             "America/Aruba"

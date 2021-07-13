@@ -1,21 +1,24 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import { ProSidebar, Menu, MenuItem} from 'react-pro-sidebar';
+import { ProSidebar, SidebarHeader, SidebarContent, Menu, MenuItem} from 'react-pro-sidebar';
+
 
 export function AppSideBar(){
 
     return(
-      <div style={{position:'fixed'}}>
-        <ProSidebar width='fit-content' style={{ position: 'fixed'}}>
+        <ProSidebar width='14%' style={{ position: 'fixed', color:'white'}}>
+            <SidebarHeader>Menu</SidebarHeader>
+            <SidebarContent>
             <Menu popperArrow={true}>
-              <br/>
-              <MenuItem>
-                <Link to='/OverView'/>Overview</MenuItem>
-              <MenuItem>
+              
+              <MenuItem >
+                <Link to='/'/>Overview</MenuItem>
+              <MenuItem >
                 <Link to='/InputDetails'/>Input Details</MenuItem>
             </Menu>
+            </SidebarContent>
           </ProSidebar>
-        </div>
+       
     );
 }
 export default AppSideBar;
