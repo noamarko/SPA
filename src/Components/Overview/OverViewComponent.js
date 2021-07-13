@@ -39,7 +39,7 @@ function OverView(props){
   }
   useEffect(() => {
       componentDidUpdate();
-  }, [mapModel, componentDidUpdate])
+  }, [mapModel])
 
 
   const displayMarkers = () => {
@@ -81,17 +81,18 @@ function OverView(props){
   };
 
     const mapStyles = {
-      width: '70%',
-      height: '90%',
+      position:'relative',
+      width: '95%',
+      height: '85%',
       // left: '15%'
     };
-    console.log(props.dataList);
     return (
-      <div style={{padding:'10px' }}>
-      <Paper elevation={4} style={{width:'76%', height:'650px', borderRadius:'20px', padding:'10px'}}>
-      
-        <h2>OverView</h2>
-        <strong style={{color:'steelblue'}}>Total Users: {props.usersData}</strong>
+      <div style={{padding:'20px', width:'fit-content' }}>
+      <Paper elevation={4} style={{position:'fixed', width:'80%', height:'650px', borderRadius:'20px', padding:'10px'}}>
+        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+          <h2>OverView</h2>
+          <h3 style={{color:'steelblue'}}>Total Users: {props.usersData}</h3>
+        </div>
         <Map
           onReady={(mapProps, map) => {
             setMapModel(map);

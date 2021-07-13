@@ -1,6 +1,4 @@
 import React from 'react';
-import ToolBar from '@material-ui/core/Toolbar';
-import AppBar from '@material-ui/core/Appbar';
 import 'react-pro-sidebar/dist/css/styles.css';
 import AppRouter from './Components/AppRouter';
 import AppSideBar from './Components/AppSideBar';

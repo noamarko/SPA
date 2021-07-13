@@ -4,7 +4,6 @@ import { withRouter } from "react-router-dom";
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import { MenuItem, Select, InputLabel, FormControl, Button } from '@material-ui/core';
-import { } from '@material-ui/core';
 
 /*Controls the Input Details page
   executes POST method to update the server
@@ -32,7 +31,6 @@ function InputDetails(props) {
 
     const sendCountryDetailsToServer = async (event) => {//sending added country to server || deleting country
         event.preventDefault();
-        console.log(props);
         const { isValid, message } = validateCountrySubmit(countryName, amountOfUsers);
         if (isValid) {
             const countryDetails = {
@@ -94,7 +92,7 @@ function InputDetails(props) {
                         <br />
                         <br />
                         <Button disabled={countryName === ''} value="Submit" onClick={sendCountryDetailsToServer}
-                            style={{ position: 'relative', color: 'black', backgroundColor: 'turquoise' }}>
+                            style={{ position: 'relative', color: 'black', backgroundColor: 'turquoise', width:'100%' }}>
                             Submit</Button>
                     </form>
                     {msg.includes('Error') ? <div style={{ textAlign: 'left', color: 'red' }}>{msg}</div>
