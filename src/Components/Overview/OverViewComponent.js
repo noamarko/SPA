@@ -117,7 +117,7 @@ function OverView(props) {
           }}
           zoom={2}
           minZoom={2}
-          maxZoom={7}
+          maxZoom={10}
           style={mapStyles}
           initialCenter={{ lat: 45, lng: -10 }}
         >
